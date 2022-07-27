@@ -1,3 +1,9 @@
+body {
+    background: url(contours.png);
+    background-repeat: no-repeat;
+    background-size: auto;
+}
+
 .section{
     margin-top: 60px;
 }
