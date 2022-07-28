@@ -1,10 +1,18 @@
 body {
-    background: url(topo3.png);
+    background: url('topo3.png');
     background-repeat: repeat;
     background-size: auto;
 }
 
 .halfsize {
+    background-image: url('3SDhjO9Hh_sm_238x238.png');
+    -moz-transform:scale(0.9);
+    -webkit-transform:scale(0.9);
+    transform:scale(0.9);
+}
+
+.halfsize:hover {
+    background-image: url('3SDhjO9Hh_sm.png');
     -moz-transform:scale(0.9);
     -webkit-transform:scale(0.9);
     transform:scale(0.9);
