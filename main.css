@@ -5,9 +5,9 @@ body {
 }
 
 .halfsize {
-    -moz-transform:scale(0.7);
-    -webkit-transform:scale(0.7);
-    transform:scale(0.7);
+    -moz-transform:scale(0.3);
+    -webkit-transform:scale(0.3);
+    transform:scale(0.3);
 }
 
 .section{
