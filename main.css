@@ -10,13 +10,6 @@ body {
     transform:scale(0.9);
 }
 
-.halfsize:hover {
-    content: url('3SDhjO9Hh_sm.png');
-    -moz-transform:scale(0.9);
-    -webkit-transform:scale(0.9);
-    transform:scale(0.9);
-}
-
 .section{
     margin-top: 60px;
 }
