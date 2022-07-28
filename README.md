@@ -1,1 +1,1 @@
-This is a simple and minimal landing page for my GitHub
+This is my simple and minimal GitHub portfolio page
