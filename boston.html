@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LeafletJS Map Example</title>
+  <!-- Load Leaflet from CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet/1.7.1/leaflet.css" />
+  <script src="https://cdn.jsdelivr.net/leaflet/1.7.1/leaflet.js"></script>
+  
+  <!-- Set the height of the map container -->
+  <style>
+    #mapid { height: 500px; }
+  </style>
+</head>
+<body>
+  <!-- Create a div for the map with an ID of "mapid" -->
+  <div id="mapid"></div>
+  
+  <script>
+    // Initialize the map and set the center to Boston, MA
+    var map = L.map('mapid').setView([42.3601, -71.0589], 13);
+    
+    // Add a tile layer to the map using OpenStreetMap as the source
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+      maxZoom: 18,
+    }).addTo(map);
+    
+    // Define the corners of the polygon as an array of lat/long coordinates
+    var polygonPoints = [
+      [42.3904, -70.9975],
+      [42.3107, -71.0172],
+      [42.3145, -71.1270],
+      [42.3938, -71.1037]
+    ];
+    
+    // Draw a polygon around Boston, MA with a 5km x 10km area
+    var polygon = L.polygon(polygonPoints, {
+      color: 'red',
+      fillColor: '#f03',
+      fillOpacity: 0.2,
+    }).addTo(map);
+    
+    // Add a marker to the map at the center of Boston, MA
+    var marker = L.marker([42.3601, -71.0589]).addTo(map);
+    marker.bindPopup("<b>Boston, MA</b>").openPopup();
+  </script>
+</body>
+</html>
