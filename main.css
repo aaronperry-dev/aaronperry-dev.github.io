@@ -84,8 +84,8 @@ a:hover {
   content: attr(data-hover);
   visibility: hidden;
   opacity: 0;
-  width: 140px;
-  background-color: black;
+  width: 50%;
+  background-color: #e5e5e5;
   color: #fff;
   text-align: center;
   border-radius: 5px;
