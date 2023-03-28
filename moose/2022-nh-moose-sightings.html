@@ -70,48 +70,49 @@
       <br><br><br><br>
       <h3>2022 Moose Sightings in New Hampshire</h3>
       <div id="map"></div>
-      <script>
-      	// Initialize Leaflet map centered on New Hampshire
-      	var map = L.map('map').setView([43.9, -71.4], 8);
-      // Add OpenStreetMap as tile layer
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      	attribution: '&copy;  <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-      	maxZoom: 18
-      }).addTo(map);
-      // Add marker icons at lat-lng locations
-      var locations = [
-      	[44.29676487930261, -71.516738332199],
-      	[43.291967642142176, -71.82636353517579],
-      	[43.864122928898254, -71.21211204454124],
-      	[44.48985148328279, -71.57172452789585],
-      	[44.108007453264094, -71.01420953148558],
-      	[44.394851689887076, -71.4689753178205],
-      	[43.726665056756964, -71.39053472779831]
-      ];
-      for (var i = 0; i < locations.length; i++) {
-      	L.marker(locations[i], {
-      		icon: L.icon({
-      			iconUrl: 'https://github.com/aaronperry-dev/aaronperry-dev.github.io/blob/main/moose/moose-marker-stroke.png?raw=true',
-      			iconSize: [32, 32]
-      		})
-      	}).bindPopup("Moose sighting at " + locations[i]).addTo(map);
-      	// Add circle
-      	L.circle(locations[i], {
-      		radius: 5000, // 5km radius
-      		color: "#b30000",
-      		fillOpacity: 0.8,
-      	}).addTo(map);
-      	circles.push(circle);
+<script>
+  // Initialize Leaflet map centered on New Hampshire
+  var map = L.map('map').setView([43.9, -71.4], 8);
+  // Add OpenStreetMap as tile layer
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy;  <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+    maxZoom: 18
+  }).addTo(map);
+  // Add marker icons at lat-lng locations
+  var locations = [    [44.29676487930261, -71.516738332199],
+    [43.291967642142176, -71.82636353517579],
+    [43.864122928898254, -71.21211204454124],
+    [44.48985148328279, -71.57172452789585],
+    [44.108007453264094, -71.01420953148558],
+    [44.394851689887076, -71.4689753178205],
+    [43.726665056756964, -71.39053472779831]
+  ];
+  var circles = [];
+  for (var i = 0; i < locations.length; i++) {
+    L.marker(locations[i], {
+      icon: L.icon({
+        iconUrl: 'https://github.com/aaronperry-dev/aaronperry-dev.github.io/blob/main/moose/moose-marker-stroke.png?raw=true',
+        iconSize: [32, 32]
+      })
+    }).bindPopup("Moose sighting at " + locations[i]).addTo(map);
+    // Add circle
+    var circle = L.circle(locations[i], {
+      radius: 5000, // 5km radius
+      color: "#b30000",
+      fillOpacity: 0.8,
+    }).addTo(map);
+    circles.push(circle);
+  }
 
-      	map.on('zoomend', function() {
-      		var zoom = map.getZoom();
-      		// Calculate the new radius for each circle based on the current zoom level
-      		var newRadius = 5000 / Math.pow(2, zoom - 8);
-      		for (var i = 0; i < circles.length; i++) {
-      			circles[i].setRadius(newRadius);
-      		}
-      	});
-        </script>
+  map.on('zoomend', function() {
+    var zoom = map.getZoom();
+    // Calculate the new radius for each circle based on the current zoom level
+    var newRadius = 5000 / Math.pow(2, zoom - 8);
+    for (var i = 0; i < circles.length; i++) {
+      circles[i].setRadius(newRadius);
+    }
+  });
+</script>
       
       <!-- Icons -->
       <ul class="icons">
