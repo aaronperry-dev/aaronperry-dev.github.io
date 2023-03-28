@@ -107,8 +107,13 @@ map.on('zoomend', function() {
   var zoom = map.getZoom();
   // Calculate the new radius for each circle based on the current zoom level
   var newRadius = 5000 / Math.pow(2, zoom - 8);
+  // Calculate the new lightness value for the fill color
+  var newLightness = 70 - (zoom - 8) * 10;
   for (var i = 0; i < circles.length; i++) {
     circles[i].setRadius(newRadius);
+    circles[i].setStyle({
+      fillColor: 'hsl(0, 100%, ' + newLightness + '%)' // set the new fill color
+    });
   }
 });
 </script>
