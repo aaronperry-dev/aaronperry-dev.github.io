@@ -95,6 +95,12 @@
               iconSize: [32, 32]
             })
           }).bindPopup("Moose sighting at " + locations[i]).addTo(map);
+        // Add circle
+        L.circle(locations[i], {
+          radius: 5000, // 5km radius
+          color: 'lightblue',
+          fillOpacity: 0.2
+          }).addTo(map);
         }
       </script>
       <!-- Icons -->
