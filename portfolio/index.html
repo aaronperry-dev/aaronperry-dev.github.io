@@ -99,6 +99,7 @@
 
                     // Add GeoJSON layer to the map with tooltips
                     L.geoJSON(feature, {
+                        style: { color: 'red' }, // Change track color to red
                         onEachFeature: function(feature, layer) {
                             if (feature.properties) {
                                 var popupContent = `
