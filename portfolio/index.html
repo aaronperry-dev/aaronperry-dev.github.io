@@ -34,7 +34,7 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
         // Initialize the map
-        var map = L.map('map').setView([43.90, -71.33], 12); // Adjust initial view based on the data
+        var map = L.map('map').setView([43.90, -71.33], 12);
 
         // Add OpenStreetMap base layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -46,24 +46,9 @@
             .then(response => response.json())
             .then(data => {
                 console.log("GeoJSON Data:", data);
-                var hikeData = {};
 
                 data.features.forEach(function(feature) {
                     console.log("Feature:", feature);
-
-                    var hikeName = feature.properties.name;
-                    var distance = feature.properties.dist_mi;
-                    var totalTime = feature.properties.total_time;
-                    var elevGain = feature.properties.elev_gain_ft;
-
-                    if (!hikeData[hikeName]) {
-                        hikeData[hikeName] = {
-                            name: hikeName,
-                            distance: distance,
-                            totalTime: totalTime,
-                            elevGain: elevGain
-                        };
-                    }
 
                     // Add GeoJSON layer to the map with popups
                     L.geoJSON(feature, {
@@ -73,20 +58,16 @@
                             }
                         }
                     }).addTo(map);
-                });
 
-                // Create table rows for each hike
-                for (var hike in hikeData) {
-                    var data = hikeData[hike];
-
+                    // Create table rows for each hike directly
                     var tableRow = `<tr>
-                        <td>${data.name}</td>
-                        <td>${data.distance} miles</td>
-                        <td>${data.totalTime} hours</td>
-                        <td>${data.elevGain} feet</td>
+                        <td>${feature.properties.name}</td>
+                        <td>${feature.properties.dist_mi.toFixed(2)} miles</td>
+                        <td>${feature.properties.total_time.toFixed(1)} hours</td>
+                        <td>${feature.properties.elev_gain_ft} feet</td>
                     </tr>`;
                     document.querySelector('#hike-table tbody').innerHTML += tableRow;
-                }
+                });
             })
             .catch(err => {
                 console.log("Error loading GeoJSON data:", err);
