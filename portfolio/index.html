@@ -71,20 +71,14 @@
                         hikeData[hikeName].endTime = time;
                     }
 
-                    // Loop through the coordinates of the MultiLineString and create a marker at each point
+                    // Loop through the coordinates of the MultiLineString and create a polyline for each track
                     feature.geometry.coordinates.forEach(function(line) {
                         var latlngs = line.map(function(coord) {
                             return [coord[1], coord[0]];  // GeoJSON uses [lon, lat] order, Leaflet uses [lat, lon]
                         });
 
                         // Create a polyline for each track
-                        var polyline = L.polyline(latlngs, { color: 'blue' }).addTo(map);
-                        polyline.bindPopup(hikeName + "<br>Elevation: " + feature.properties.elevation_ft + " ft");
-
-                        // Optionally, you can add markers at key points in the track
-                        latlngs.forEach(function(latlng) {
-                            L.marker(latlng).addTo(map);
-                        });
+                        L.polyline(latlngs, { color: 'blue' }).addTo(map);
                     });
                 });
 
