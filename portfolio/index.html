@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hiking Tracks on OSM Map</title>
+    <title>2024 Hiking Tracks on an OSM Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
         #map { height: 600px; }
@@ -11,6 +11,12 @@
         table { width: 100%; border-collapse: collapse; }
         th, td { padding: 8px; text-align: left; border: 1px solid #ddd; }
         th { background-color: #f2f2f2; }
+        tbody tr:nth-child(even) {
+            background-color: #e0f2fe; /* Light blue for even rows */
+        }
+        tbody tr:hover {
+            background-color: #a3c2eb; /* Darker blue on hover */
+        }
     </style>
 </head>
 <body>
@@ -34,7 +40,7 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
         // Initialize the map
-        var map = L.map('map').setView([43.90, -71.33], 9);
+        var map = L.map('map').setView([43.90, -71.33], 12);
 
         // Add OpenStreetMap base layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
