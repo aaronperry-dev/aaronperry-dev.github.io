@@ -47,7 +47,7 @@
 </head>
 <body>
     <h1>Aaron Perry Portfolio</h1>
-    <h2>2024 Hike Data Displayed on <br>an OSM Map Using Local GeoJSON File</h2>
+    <h2>2024 Hiking Data Displayed on <br>an ESRI Leaflet Map<br> Using Local GeoJSON File</h2>
     <div id="map"></div>
     <div id="hike-info">
         <h3>Hike Details</h3>
@@ -78,7 +78,7 @@
         // Initialize the map
         var map = L.map('map').setView([43.90, -71.33], 9); // Set zoom level to 9
 
-        // Add OpenStreetMap base layer
+        // Add ESRI base layer
         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
             attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
         }).addTo(map);
