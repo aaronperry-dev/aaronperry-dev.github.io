@@ -21,9 +21,9 @@
             <thead>
                 <tr>
                     <th>Hike Name</th>
-                    <th>Distance (miles)</th>
-                    <th>Duration (hours)</th>
-                    <th>Elevation Gain (feet)</th>
+                    <th>Distance</th>
+                    <th>Duration</th>
+                    <th>Elevation Gain</th>
                 </tr>
             </thead>
             <tbody>
@@ -68,8 +68,8 @@
                     }).addTo(map);
 
                     var name = feature.properties && feature.properties.name ? feature.properties.name : "N/A";
-                    var distance = feature.properties && feature.properties.dist_mi ? feature.properties.dist_mi.toFixed(2) + " miles" : "N/A";
-                    var totalTime = feature.properties && feature.properties.total_time ? feature.properties.total_time.toFixed(1) + " hours" : "N/A";
+                    var distance = feature.properties && feature.properties.dist_mi ? feature.properties.dist_mi + " miles" : "N/A";
+                    var totalTime = feature.properties && feature.properties.total_time ? feature.properties.total_time + " hours" : "N/A";
                     var elevGain = feature.properties && feature.properties.elev_gain_ft ? feature.properties.elev_gain_ft + " feet" : "N/A";
 
                     // Append table rows for each hike
