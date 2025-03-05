@@ -109,7 +109,7 @@
                                     Total Time: ${feature.properties.total_time} hours<br>
                                     Elevation Gain: ${feature.properties.elev_gain_ft.toLocaleString()} feet
                                 `;
-                                layer.bindTooltip(popupContent);
+                                layer.bindTooltip(popupContent, {permanent: true, direction: 'auto'});
                             }
                         }
                     }).addTo(map);
