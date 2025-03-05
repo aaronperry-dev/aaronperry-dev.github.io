@@ -58,11 +58,16 @@
                         console.log("Elevation Gain:", feature.properties.elev_gain_ft);
                     }
 
-                    // Add GeoJSON layer to the map with popups
+                    // Add GeoJSON layer to the map with tooltips
                     L.geoJSON(feature, {
                         onEachFeature: function(feature, layer) {
-                            if (feature.properties && feature.properties.name) {
-                                layer.bindPopup(feature.properties.name);
+                            if (feature.properties) {
+                                var popupContent = `
+                                    <b>${feature.properties.name}</b><br>
+                                    Distance: ${feature.properties.dist_mi.toFixed(2)} miles<br>
+                                    Elevation Gain: ${feature.properties.elev_gain_ft} feet
+                                `;
+                                layer.bindTooltip(popupContent);
                             }
                         }
                     }).addTo(map);
