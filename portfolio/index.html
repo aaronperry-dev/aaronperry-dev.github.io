@@ -3,19 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2024 Hiking Tracks on an OSM Map</title>
+    <title>Hiking Tracks on OSM Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
+        body {
+            background-image: url('../../topo3.png'); /* Adjust the path as needed */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* Optional: Keep the background fixed */
+        }
         #map { height: 600px; }
-        #hike-info { margin-top: 20px; font-size: 1.2em; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 8px; text-align: left; border: 1px solid #ddd; }
-        th { background-color: #f2f2f2; }
+        #hike-info { margin-top: 20px; font-size: 1.2em; background-color: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px;} /* added background to hike info*/
+        table { width: 100%; border-collapse: collapse; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #e0f2fe; font-weight: 600; }
         tbody tr:nth-child(even) {
-            background-color: #e0f2fe; /* Light blue for even rows */
+            background-color: #f0f8ff;
         }
         tbody tr:hover {
-            background-color: #a3c2eb; /* Darker blue on hover */
+            background-color: #add8e6;
         }
     </style>
 </head>
