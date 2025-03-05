@@ -7,14 +7,23 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
         body {
-            background-image: url('topo3.png'); /* Adjust the path as needed */
+            background-image: url('topo3.png');
             background-size: cover;
             background-repeat: no-repeat;
-            background-attachment: fixed; /* Optional: Keep the background fixed */
+            background-attachment: fixed;
+            font-family: 'Roboto', sans-serif; /* Modern font for all elements */
+            margin: 0; /* Remove default body margin */
+            padding: 0; /* Remove default body padding */
+            line-height: 1.6; /* Improve text readability */
         }
-        #map { height: 600px; }
-        #hike-info { margin-top: 20px; font-size: 1.2em; background-color: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px;} /* added background to hike info*/
-        table { width: 100%; border-collapse: collapse; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        h2 {
+            text-align: center;
+            margin: 20px 0;
+            color: #333;
+        }
+        #map { height: 600px; width: 100%;}
+        #hike-info { margin: 20px auto; max-width: 90%; background-color: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px;}
+        table { width: 100%; border-collapse: collapse; font-family: 'Roboto', sans-serif; }
         th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; }
         th { background-color: #e0f2fe; font-weight: 600; }
         tbody tr:nth-child(even) {
@@ -23,7 +32,12 @@
         tbody tr:hover {
             background-color: #add8e6;
         }
+        tfoot {
+            font-weight: bold;
+            background-color: #e0f2fe;
+        }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <h2>2024 Hikes</h2>
@@ -41,6 +55,14 @@
             </thead>
             <tbody>
             </tbody>
+            <tfoot>
+                <tr>
+                    <td>Total</td>
+                    <td id="totalDistance">0 miles</td>
+                    <td id="totalTime">0 hours</td>
+                    <td id="totalElevGain">0 feet</td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 
@@ -59,6 +81,10 @@
             .then(response => response.json())
             .then(data => {
                 console.log("GeoJSON Data:", data);
+
+                let totalDistance = 0;
+                let totalTime = 0;
+                let totalElevGain = 0;
 
                 data.features.forEach(function(feature) {
                     console.log("Feature:", feature);
@@ -86,9 +112,13 @@
                     }).addTo(map);
 
                     var name = feature.properties && feature.properties.name ? feature.properties.name : "N/A";
-                    var distance = feature.properties && feature.properties.dist_mi ? feature.properties.dist_mi.toFixed(2) : "N/A";
-                    var totalTime = feature.properties && feature.properties.total_time ? feature.properties.total_time.toFixed(1) : "N/A";
-                    var elevGain = feature.properties && feature.properties.elev_gain_ft ? feature.properties.elev_gain_ft : "N/A";
+                    var distance = feature.properties && feature.properties.dist_mi ? feature.properties.dist_mi : 0;
+                    var totalTimeFeature = feature.properties && feature.properties.total_time ? feature.properties.total_time : 0;
+                    var elevGain = feature.properties && feature.properties.elev_gain_ft ? feature.properties.elev_gain_ft : 0;
+
+                    totalDistance += distance;
+                    totalTime += totalTimeFeature;
+                    totalElevGain += elevGain;
 
                     // Create and append table rows for each hike
                     var tableBody = document.querySelector('#hike-table tbody');
@@ -99,11 +129,11 @@
                     row.appendChild(nameCell);
 
                     var distanceCell = document.createElement('td');
-                    distanceCell.textContent = distance + " miles";
+                    distanceCell.textContent = distance.toFixed(2) + " miles";
                     row.appendChild(distanceCell);
 
                     var timeCell = document.createElement('td');
-                    timeCell.textContent = totalTime + " hours";
+                    timeCell.textContent = totalTimeFeature.toFixed(1) + " hours";
                     row.appendChild(timeCell);
 
                     var elevCell = document.createElement('td');
@@ -112,6 +142,12 @@
 
                     tableBody.appendChild(row);
                 });
+
+                // Update totals in the footer
+                document.getElementById('totalDistance').textContent = totalDistance.toFixed(2) + " miles";
+                document.getElementById('totalTime').textContent = totalTime.toFixed(1) + " hours";
+                document.getElementById('totalElevGain').textContent = totalElevGain + " feet";
+
             })
             .catch(err => {
                 console.log("Error loading GeoJSON data:", err);
