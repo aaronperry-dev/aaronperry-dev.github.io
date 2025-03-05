@@ -21,9 +21,9 @@
             <thead>
                 <tr>
                     <th>Hike Name</th>
-                    <th>Distance</th>
-                    <th>Duration</th>
-                    <th>Elevation Gain</th>
+                    <th>Distance (miles)</th>
+                    <th>Duration (hours)</th>
+                    <th>Elevation Gain (feet)</th>
                 </tr>
             </thead>
             <tbody>
@@ -68,18 +68,31 @@
                     }).addTo(map);
 
                     var name = feature.properties && feature.properties.name ? feature.properties.name : "N/A";
-                    var distance = feature.properties && feature.properties.dist_mi ? feature.properties.dist_mi + " miles" : "N/A";
-                    var totalTime = feature.properties && feature.properties.total_time ? feature.properties.total_time + " hours" : "N/A";
-                    var elevGain = feature.properties && feature.properties.elev_gain_ft ? feature.properties.elev_gain_ft + " feet" : "N/A";
+                    var distance = feature.properties && feature.properties.dist_mi ? feature.properties.dist_mi.toFixed(2) : "N/A";
+                    var totalTime = feature.properties && feature.properties.total_time ? feature.properties.total_time.toFixed(1) : "N/A";
+                    var elevGain = feature.properties && feature.properties.elev_gain_ft ? feature.properties.elev_gain_ft : "N/A";
 
-                    // Append table rows for each hike
-                    var tableRow = `<tr>
-                        <td>${name}</td>
-                        <td>${distance}</td>
-                        <td>${totalTime}</td>
-                        <td>${elevGain}</td>
-                    </tr>`;
-                    document.querySelector('#hike-table tbody').innerHTML += tableRow;
+                    // Create and append table rows for each hike
+                    var tableBody = document.querySelector('#hike-table tbody');
+                    var row = document.createElement('tr');
+
+                    var nameCell = document.createElement('td');
+                    nameCell.textContent = name;
+                    row.appendChild(nameCell);
+
+                    var distanceCell = document.createElement('td');
+                    distanceCell.textContent = distance + " miles";
+                    row.appendChild(distanceCell);
+
+                    var timeCell = document.createElement('td');
+                    timeCell.textContent = totalTime + " hours";
+                    row.appendChild(timeCell);
+
+                    var elevCell = document.createElement('td');
+                    elevCell.textContent = elevGain + " feet";
+                    row.appendChild(elevCell);
+
+                    tableBody.appendChild(row);
                 });
             })
             .catch(err => {
