@@ -14,7 +14,8 @@
     </style>
 </head>
 <body>
-    <div id="map"></div> <div id="hike-info">
+    <div id="map"></div> <!-- Map container -->
+    <div id="hike-info">
         <h3>Hike Details</h3>
         <table id="hike-table">
             <thead>
@@ -25,14 +26,16 @@
                 </tr>
             </thead>
             <tbody>
-                </tbody>
+                <!-- Hike data will be inserted here dynamically -->
+            </tbody>
         </table>
     </div>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/geojson/2.5.0/geojson.min.js"></script>
     <script>
         // Initialize the map
-        var map = L.map('map').setView([44.0, -71.5], 8); // Adjust initial view to focus on NH
+        var map = L.map('map').setView([44.0, -71.5], 8);  // Adjust initial view to focus on NH
 
         // Add OpenStreetMap base layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -43,56 +46,54 @@
         fetch('master_trails.geojson')
             .then(response => response.json())
             .then(data => {
-                console.log("GeoJSON Data:", data); // Log GeoJSON data to the console for debugging
-                var hikeData = {}; // To store the hike data by name
-
+                console.log("GeoJSON Data:", data);  // Log GeoJSON data to the console for debugging
+                var hikeData = {};  // To store the hike data by name
+                
                 // Loop through each feature in the GeoJSON file
                 data.features.forEach(function(feature) {
-                    console.log("Feature:", feature); // Log individual feature data for debugging
+                    console.log("Feature:", feature);  // Log individual feature data for debugging
 
                     var hikeName = feature.properties.name;
-                    var distance = feature.properties.dist_mi || 0; // Default to 0 if distance is null
-                    var startTime = feature.properties.start_time;
-                    var endTime = feature.properties.end_time;
+                    var distance = feature.properties.dist_mi || 0;  // Default to 0 if distance is null
+                    var time = new Date(feature.properties.time); // Assuming time is the same for all track points
 
                     // Group data by hike name
                     if (!hikeData[hikeName]) {
                         hikeData[hikeName] = {
                             name: hikeName,
                             distance: 0,
-                            startTime: startTime,
-                            endTime: endTime
+                            startTime: time,
+                            endTime: time
                         };
                     } else {
                         // Update distance and end time for each hike
                         hikeData[hikeName].distance += distance;
-                        if(endTime > hikeData[hikeName].endTime){
-                            hikeData[hikeName].endTime = endTime;
-                        }
-                        if(startTime < hikeData[hikeName].startTime){
-                            hikeData[hikeName].startTime = startTime;
-                        }
-
+                        hikeData[hikeName].endTime = time;
                     }
 
-                    // Add GeoJSON layer to the map
-                    L.geoJSON(feature, {
-                        onEachFeature: function(feature, layer) {
-                            if (feature.properties && feature.properties.name) {
-                                layer.bindPopup(feature.properties.name);
-                            }
-                        }
-                    }).addTo(map);
+                    // Loop through the coordinates of the MultiLineString and create a marker at each point
+                    feature.geometry.coordinates.forEach(function(line) {
+                        var latlngs = line.map(function(coord) {
+                            return [coord[1], coord[0]];  // GeoJSON uses [lon, lat] order, Leaflet uses [lat, lon]
+                        });
+
+                        // Create a polyline for each track
+                        var polyline = L.polyline(latlngs, { color: 'blue' }).addTo(map);
+                        polyline.bindPopup(hikeName + "<br>Elevation: " + feature.properties.elevation_ft + " ft");
+
+                        // Optionally, you can add markers at key points in the track
+                        latlngs.forEach(function(latlng) {
+                            L.marker(latlng).addTo(map);
+                        });
+                    });
                 });
 
                 // Create a table for each hike with the summed data
                 for (var hike in hikeData) {
                     var data = hikeData[hike];
-                    var startTime = new Date(data.startTime);
-                    var endTime = new Date(data.endTime);
-                    var duration = (endTime - startTime) / 60000; // Duration in minutes
-                    console.log("Hike Data:", data); // Log the summarized hike data for debugging
-
+                    var duration = (data.endTime - data.startTime) / 60000;  // Duration in minutes
+                    console.log("Hike Data:", data);  // Log the summarized hike data for debugging
+                    
                     // Add hike data to the table dynamically
                     var tableRow = `<tr>
                         <td>${data.name}</td>
