@@ -16,6 +16,11 @@
             padding: 0;
             line-height: 1.6;
         }
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #333;
+        }
         h2 {
             text-align: center;
             margin: 20px 0;
@@ -40,7 +45,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <center></center><h1>Portfolio</h1></center>
+    <h1>Portfolio</h1>
     <h2>2024 Hike Data Displayed on an OSM Map Using Local GeoJSON File</h2>
     <div id="map"></div>
     <div id="hike-info">
@@ -109,7 +114,7 @@
                                     Total Time: ${feature.properties.total_time} hours<br>
                                     Elevation Gain: ${feature.properties.elev_gain_ft.toLocaleString()} feet
                                 `;
-                                layer.bindTooltip(popupContent, {permanent: true, direction: 'auto'});
+                                layer.bindTooltip(popupContent, {permanent: false, direction: 'auto'});
                             }
                         }
                     }).addTo(map);
