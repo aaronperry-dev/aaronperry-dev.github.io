@@ -48,9 +48,9 @@
             <thead>
                 <tr>
                     <th>Hike Name</th>
-                    <th>Distance (miles)</th>
-                    <th>Duration (hours)</th>
-                    <th>Elevation Gain (feet)</th>
+                    <th>Distance</th>
+                    <th>Duration</th>
+                    <th>Elevation Gain</th>
                 </tr>
             </thead>
             <tbody>
@@ -104,6 +104,7 @@
                                 var popupContent = `
                                     <b>${feature.properties.name}</b><br>
                                     Distance: ${feature.properties.dist_mi.toFixed(2)} miles<br>
+                                    Total Time: ${feature.properties.total_time} hours<br>
                                     Elevation Gain: ${feature.properties.elev_gain_ft.toLocaleString()} feet
                                 `;
                                 layer.bindTooltip(popupContent);
