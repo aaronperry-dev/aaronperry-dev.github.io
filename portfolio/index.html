@@ -11,10 +11,10 @@
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            font-family: 'Roboto', sans-serif; /* Modern font for all elements */
-            margin: 0; /* Remove default body margin */
-            padding: 0; /* Remove default body padding */
-            line-height: 1.6; /* Improve text readability */
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
         }
         h2 {
             text-align: center;
@@ -69,7 +69,7 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
         // Initialize the map
-        var map = L.map('map').setView([43.90, -71.33], 12);
+        var map = L.map('map').setView([43.90, -71.33], 9); // Set zoom level to 9
 
         // Add OpenStreetMap base layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -104,7 +104,7 @@
                                 var popupContent = `
                                     <b>${feature.properties.name}</b><br>
                                     Distance: ${feature.properties.dist_mi.toFixed(2)} miles<br>
-                                    Elevation Gain: ${feature.properties.elev_gain_ft} feet
+                                    Elevation Gain: ${feature.properties.elev_gain_ft.toLocaleString()} feet
                                 `;
                                 layer.bindTooltip(popupContent);
                             }
@@ -137,7 +137,7 @@
                     row.appendChild(timeCell);
 
                     var elevCell = document.createElement('td');
-                    elevCell.textContent = elevGain + " feet";
+                    elevCell.textContent = elevGain.toLocaleString() + " feet"; // Format elevation with commas
                     row.appendChild(elevCell);
 
                     tableBody.appendChild(row);
@@ -146,7 +146,7 @@
                 // Update totals in the footer
                 document.getElementById('totalDistance').textContent = totalDistance.toFixed(2) + " miles";
                 document.getElementById('totalTime').textContent = totalTime.toFixed(1) + " hours";
-                document.getElementById('totalElevGain').textContent = totalElevGain + " feet";
+                document.getElementById('totalElevGain').textContent = totalElevGain.toLocaleString() + " feet"; // Format elevation with commas
 
             })
             .catch(err => {
