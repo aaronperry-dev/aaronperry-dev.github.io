@@ -49,6 +49,14 @@
 
                 data.features.forEach(function(feature) {
                     console.log("Feature:", feature);
+                    console.log("Feature Properties:", feature.properties);
+
+                    if (feature.properties) {
+                        console.log("Name:", feature.properties.name);
+                        console.log("Distance:", feature.properties.dist_mi);
+                        console.log("Total Time:", feature.properties.total_time);
+                        console.log("Elevation Gain:", feature.properties.elev_gain_ft);
+                    }
 
                     // Add GeoJSON layer to the map with popups
                     L.geoJSON(feature, {
@@ -59,12 +67,17 @@
                         }
                     }).addTo(map);
 
-                    // Create table rows for each hike directly
+                    var name = feature.properties && feature.properties.name ? feature.properties.name : "N/A";
+                    var distance = feature.properties && feature.properties.dist_mi ? feature.properties.dist_mi.toFixed(2) + " miles" : "N/A";
+                    var totalTime = feature.properties && feature.properties.total_time ? feature.properties.total_time.toFixed(1) + " hours" : "N/A";
+                    var elevGain = feature.properties && feature.properties.elev_gain_ft ? feature.properties.elev_gain_ft + " feet" : "N/A";
+
+                    // Append table rows for each hike
                     var tableRow = `<tr>
-                        <td>${feature.properties.name}</td>
-                        <td>${feature.properties.dist_mi.toFixed(2)} miles</td>
-                        <td>${feature.properties.total_time.toFixed(1)} hours</td>
-                        <td>${feature.properties.elev_gain_ft} feet</td>
+                        <td>${name}</td>
+                        <td>${distance}</td>
+                        <td>${totalTime}</td>
+                        <td>${elevGain}</td>
                     </tr>`;
                     document.querySelector('#hike-table tbody').innerHTML += tableRow;
                 });
