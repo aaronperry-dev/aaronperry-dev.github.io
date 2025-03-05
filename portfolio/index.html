@@ -22,7 +22,8 @@
                 <tr>
                     <th>Hike Name</th>
                     <th>Distance (miles)</th>
-                    <th>Duration (minutes)</th>
+                    <th>Duration (hours)</th>
+                    <th>Elevation Gain (feet)</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,7 +34,7 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
         // Initialize the map
-        var map = L.map('map').setView([44.0, -71.5], 8);
+        var map = L.map('map').setView([43.90, -71.33], 12); // Adjust initial view based on the data
 
         // Add OpenStreetMap base layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -49,46 +50,19 @@
 
                 data.features.forEach(function(feature) {
                     console.log("Feature:", feature);
-                    console.log("Feature Properties:", feature.properties);
-                    console.log("Distance (dist_mi):", feature.properties.dist_mi);
 
                     var hikeName = feature.properties.name;
                     var distance = feature.properties.dist_mi;
-
-                    if (typeof distance === 'number') {
-                    } else if (typeof distance === 'string') {
-                        distance = parseFloat(distance);
-                        if (isNaN(distance)) {
-                            distance = 0;
-                        }
-                    } else {
-                        distance = 0;
-                    }
-
-                    if (isNaN(distance)){
-                        distance = 0;
-                    }
-
-                    distance = distance || 0;
-
-                    var startTime = feature.properties.start_time;
-                    var endTime = feature.properties.end_time;
+                    var totalTime = feature.properties.total_time;
+                    var elevGain = feature.properties.elev_gain_ft;
 
                     if (!hikeData[hikeName]) {
                         hikeData[hikeName] = {
                             name: hikeName,
-                            distance: 0,
-                            startTime: startTime,
-                            endTime: endTime
+                            distance: distance,
+                            totalTime: totalTime,
+                            elevGain: elevGain
                         };
-                    } else {
-                        hikeData[hikeName].distance += distance;
-                        if (endTime > hikeData[hikeName].endTime) {
-                            hikeData[hikeName].endTime = endTime;
-                        }
-                        if (startTime < hikeData[hikeName].startTime) {
-                            hikeData[hikeName].startTime = startTime;
-                        }
                     }
 
                     // Add GeoJSON layer to the map with popups
@@ -104,14 +78,12 @@
                 // Create table rows for each hike
                 for (var hike in hikeData) {
                     var data = hikeData[hike];
-                    var startTime = new Date(data.startTime);
-                    var endTime = new Date(data.endTime);
-                    var duration = (endTime - startTime) / 60000;
 
                     var tableRow = `<tr>
                         <td>${data.name}</td>
-                        <td>${data.distance} miles</td>
-                        <td>${Math.round(duration)} minutes</td>
+                        <td>${data.distance.toFixed(2)} miles</td>
+                        <td>${data.totalTime.toFixed(1)} hours</td>
+                        <td>${data.elevGain} feet</td>
                     </tr>`;
                     document.querySelector('#hike-table tbody').innerHTML += tableRow;
                 }
