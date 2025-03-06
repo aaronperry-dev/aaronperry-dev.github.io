@@ -27,6 +27,17 @@
             margin: 20px 0;
             color: #333;
         }
+        h2:after {
+            content:' ';
+            display:block;
+            border:0.5px solid #000000;
+            border-radius:1px;
+            -webkit-border-radius:4px;
+            -moz-border-radius:4px;
+            box-shadow:inset 0 1px 1px rgba(0, 0, 0, .05);
+            -webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, .05);
+            -moz-box-shadow:inset 0 1px 1px rgba(0, 0, 0, .05);
+}
         #map { height: 600px; width: 100%;}
         #hike-info { margin: 20px auto; max-width: 90%; background-color: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px;}
         table { width: 100%; border-collapse: collapse; font-family: 'Roboto', sans-serif; }
@@ -163,6 +174,6 @@
             });
     </script>
 <h2>Chocorua Lake Conservancy (CLC) Cartography</h2></h2>
-    <img src="2024-CLC-service-area-map.final.large"</img>
+    <img src="2024-CLC-service-area-map.final.large" width="75%" height="75%"></img>
 </body>
 </html>
