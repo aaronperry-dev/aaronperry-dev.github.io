@@ -1,187 +1,290 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aaron Perry Portfolio</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <style>
-        body {
-            background-image: url('topo3.png');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
-        h1 {
-            text-align: center;
-            margin: 20px 0;
-            color: #557630;
-            font-weight: bold;
-            font-family: 'Helvetica', 'Arial', sans-serif;
-        }
-        h2 {
-            text-align: center;
-            margin: 20px 0;
-            color: #4061A6;
-            font-family: 'Georgia Bold', serif; /* Added Georgia Bold */
-        }
-        h2:after {
-            content:' ';
-            display:block;
-            border:0.5px solid #000000;
-            border-radius:1px;
-            -webkit-border-radius:4px;
-            -moz-border-radius:4px;
-            box-shadow:inset 0 1px 1px rgba(0, 0, 0, .05);
-            -webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, .05);
-            -moz-box-shadow:inset 0 1px 1px rgba(0, 0, 0, .05);
-}
-        img {
-            display: block;
-            margin: 0 auto;
-            max-width: 100%;
-            height: auto;
-}
-        #map { height: 600px; width: 100%;}
-        #hike-info { margin: 20px auto; max-width: 90%; background-color: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px;}
-        table { width: 100%; border-collapse: collapse; font-family: 'Roboto', sans-serif; }
-        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; }
-        th { background-color: #e0f2fe; font-weight: 600; }
-        tbody tr:nth-child(even) {
-            background-color: #f0f8ff;
-        }
-        tbody tr:hover {
-            background-color: #add8e6;
-        }
-        tfoot {
-            font-weight: bold;
-            background-color: #e0f2fe;
-        }
-    </style>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <h1>Aaron Perry<br>GIS Portfolio</h1><br>
-    <h2>2024 Hiking Data (GeoJSON) Displayed on an ESRI Leaflet Map</h2>
-    <div id="map"></div>
-    <div id="hike-info">
-        <h3>Hike Details</h3>
-        <table id="hike-table">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Aaron Perry Portfolio</title>
+      <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+      <style>
+         body {
+         background-image: url('topo3.png');
+         background-size: cover;
+         background-repeat: no-repeat;
+         background-attachment: fixed;
+         font-family: 'Roboto', sans-serif;
+         margin: 0;
+         padding: 0;
+         line-height: 1.6;
+         }
+         h1 {
+         text-align: center;
+         margin: 20px 0;
+         color: #557630;
+         font-weight: bold;
+         font-family: 'Helvetica', 'Arial', sans-serif;
+         }
+         h2 {
+         text-align: center;
+         margin: 20px 0;
+         color: #4061A6;
+         font-family: 'Georgia Bold', serif; /* Added Georgia Bold */
+         }
+         h2:after {
+         content:' ';
+         display:block;
+         border:0.5px solid #000000;
+         border-radius:1px;
+         -webkit-border-radius:4px;
+         -moz-border-radius:4px;
+         box-shadow:inset 0 1px 1px rgba(0, 0, 0, .05);
+         -webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, .05);
+         -moz-box-shadow:inset 0 1px 1px rgba(0, 0, 0, .05);
+         }
+         img {
+         display: block;
+         margin: 0 auto;
+         max-width: 100%;
+         height: auto;
+         }
+         #map { height: 600px; width: 100%;}
+         #menu {
+         background: #4061A6;
+         height: 45px;
+         border-radius: 0px;
+         }
+         #menu ul, #menu li {
+         margin: 0 auto;
+         padding: 0;
+         list-style: none
+         }
+         #menu ul {
+         width: 100%;
+         text-align: center;
+         }
+         #menu li {
+         display: inline-block;
+         position: relative;
+         }
+         #menu a {
+         display: block;
+         line-height: 45px;
+         padding: 0 14px;
+         text-decoration: none;
+         color: #FFFFFF;
+         font-size: 16px;
+         }
+         #menu a.dropdown-arrow:after {
+         content: "\25BE";
+         margin-left: 5px;
+         }
+         #menu li a:hover {
+         color: #EBB700;
+         background: #F2F2F2;
+         }
+         #menu input {
+         display: none;
+         margin: 0;
+         padding: 0;
+         height: 45px;
+         width: 100%;
+         opacity: 0;
+         cursor: pointer
+         }
+         #menu label {
+         display: none;
+         line-height: 45px;
+         text-align: center;
+         position: absolute;
+         left: 35px
+         }
+         #menu label:before {
+         font-size: 1.6em;
+         color: #FFFFFF;
+         content: "\2261"; 
+         margin-left: 20px;
+         }
+         #menu ul.sub-menus{
+         height: auto;
+         overflow: hidden;
+         width: 170px;
+         background: #444444;
+         position: absolute;
+         z-index: 99;
+         display: none;
+         }
+         #menu ul.sub-menus li {
+         display: block;
+         text-align: left;
+         width: 100%;
+         }
+         #menu ul.sub-menus a {
+         color: #FFFFFF;
+         font-size: 16px;
+         }
+         #menu li:hover ul.sub-menus {
+         display: block
+         }
+         #menu ul.sub-menus a:hover{
+         background: #F2F2F2;
+         color: #444444;
+         }
+         @media screen and (max-width: 800px){
+         #menu {position:relative}
+         #menu ul {background:#444444;position:absolute;top:100%;right:0;left:0;z-index:3;height:auto;display:none;text-align:left;}
+         #menu ul.sub-menus {width:100%;position:static;}
+         #menu ul.sub-menus a {padding-left:30px;}
+         #menu li {display:block;float:none;width:auto;}
+         #menu input, #menu label {position:absolute;top:0;left:0;display:block}
+         #menu input {z-index:4}
+         #menu input:checked + label {color:#FFFFFF}
+         #menu input:checked + label:before {content:"\00d7"}
+         #menu input:checked ~ ul {display:block}
+         }
+         #hike-info { margin: 20px auto; max-width: 90%; background-color: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px;}
+         table { width: 100%; border-collapse: collapse; font-family: 'Roboto', sans-serif; }
+         th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; }
+         th { background-color: #e0f2fe; font-weight: 600; }
+         tbody tr:nth-child(even) {
+         background-color: #f0f8ff;
+         }
+         tbody tr:hover {
+         background-color: #add8e6;
+         }
+         tfoot {
+         font-weight: bold;
+         background-color: #e0f2fe;
+         }
+      </style>
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+   </head>
+   <body>
+      <nav id='menu'>
+         <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>
+         <ul>
+            <li><a href='http://'>Home</a></li>
+            <li><a href='/about'>About</a></li>
+            <li><a href='https://www.linkedin.com/in/aaronperry-0012d156/'>LinkedIn</a></li>
+         </ul>
+      </nav>
+      <h1>Aaron Perry<br>GIS Portfolio</h1>
+      <br>
+      <h2>2024 Hiking Data (GeoJSON) Displayed on an ESRI Leaflet Map</h2>
+      <div id="map"></div>
+      <div id="hike-info">
+         <h3>Hike Details</h3>
+         <table id="hike-table">
             <thead>
-                <tr>
-                    <th>Hike Name</th>
-                    <th>Distance</th>
-                    <th>Duration</th>
-                    <th>Elevation Gain</th>
-                </tr>
+               <tr>
+                  <th>Hike Name</th>
+                  <th>Distance</th>
+                  <th>Duration</th>
+                  <th>Elevation Gain</th>
+               </tr>
             </thead>
             <tbody>
             </tbody>
             <tfoot>
-                <tr>
-                    <td>Total</td>
-                    <td id="totalDistance">0 miles</td>
-                    <td id="totalTime">0 hours</td>
-                    <td id="totalElevGain">0 feet</td>
-                </tr>
+               <tr>
+                  <td>Total</td>
+                  <td id="totalDistance">0 miles</td>
+                  <td id="totalTime">0 hours</td>
+                  <td id="totalElevGain">0 feet</td>
+               </tr>
             </tfoot>
-        </table>
-    </div>
-
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script>
-        // Initialize the map
-        var map = L.map('map').setView([43.90, -71.33], 9); // Set zoom level to 9
-
-        // Add ESRI base layer
-        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
-        }).addTo(map);
-
-        // Load GeoJSON data
-        fetch('master_trails.geojson')
-            .then(response => response.json())
-            .then(data => {
-                console.log("GeoJSON Data:", data);
-
-                let totalDistance = 0;
-                let totalTime = 0;
-                let totalElevGain = 0;
-
-                data.features.forEach(function(feature) {
-                    console.log("Feature:", feature);
-                    console.log("Feature Properties:", feature.properties);
-
-                    if (feature.properties) {
-                        console.log("Name:", feature.properties.name);
-                        console.log("Distance:", feature.properties.dist_mi);
-                        console.log("Total Time:", feature.properties.total_time);
-                        console.log("Elevation Gain:", feature.properties.elev_gain_ft);
-                    }
-
-                    // Add GeoJSON layer to the map with tooltips
-                    L.geoJSON(feature, {
-                        style: { color: 'red' }, // Change track color to red
-                        onEachFeature: function(feature, layer) {
-                            if (feature.properties) {
-                                var popupContent = `
-                                    <b>${feature.properties.name}</b><br>
-                                    Distance: ${feature.properties.dist_mi.toFixed(2)} miles<br>
-                                    Total Time: ${feature.properties.total_time} hours<br>
-                                    Elevation Gain: ${feature.properties.elev_gain_ft.toLocaleString()} feet
-                                `;
-                                layer.bindTooltip(popupContent, {permanent: false, direction: 'auto'});
-                            }
-                        }
-                    }).addTo(map);
-
-                    var name = feature.properties && feature.properties.name ? feature.properties.name : "N/A";
-                    var distance = feature.properties && feature.properties.dist_mi ? feature.properties.dist_mi : 0;
-                    var totalTimeFeature = feature.properties && feature.properties.total_time ? feature.properties.total_time : 0;
-                    var elevGain = feature.properties && feature.properties.elev_gain_ft ? feature.properties.elev_gain_ft : 0;
-
-                    totalDistance += distance;
-                    totalTime += totalTimeFeature;
-                    totalElevGain += elevGain;
-
-                    // Create and append table rows for each hike
-                    var tableBody = document.querySelector('#hike-table tbody');
-                    var row = document.createElement('tr');
-
-                    var nameCell = document.createElement('td');
-                    nameCell.textContent = name;
-                    row.appendChild(nameCell);
-
-                    var distanceCell = document.createElement('td');
-                    distanceCell.textContent = distance.toFixed(2) + " miles";
-                    row.appendChild(distanceCell);
-
-                    var timeCell = document.createElement('td');
-                    timeCell.textContent = totalTimeFeature.toFixed(1) + " hours";
-                    row.appendChild(timeCell);
-
-                    var elevCell = document.createElement('td');
-                    elevCell.textContent = elevGain.toLocaleString() + " feet"; // Format elevation with commas
-                    row.appendChild(elevCell);
-
-                    tableBody.appendChild(row);
-                });
-
-                // Update totals in the footer
-                document.getElementById('totalDistance').textContent = totalDistance.toFixed(2) + " miles";
-                document.getElementById('totalTime').textContent = totalTime.toFixed(1) + " hours";
-                document.getElementById('totalElevGain').textContent = totalElevGain.toLocaleString() + " feet"; // Format elevation with commas
-
-            })
-            .catch(err => {
-                console.log("Error loading GeoJSON data:", err);
-            });
-    </script>
-<h2>Chocorua Lake Conservancy (CLC) Cartography</h2></h2>
-    <center></center><img src="2024-CLC-service-area-map.final.large.jpg" style="width: 75%; height: 75%;"></img></center>
-</body>
+         </table>
+      </div>
+      <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+      <script>
+         // Initialize the map
+         var map = L.map('map').setView([43.90, -71.33], 9); // Set zoom level to 9
+         
+         // Add ESRI base layer
+         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+             attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+         }).addTo(map);
+         
+         // Load GeoJSON data
+         fetch('master_trails.geojson')
+             .then(response => response.json())
+             .then(data => {
+                 console.log("GeoJSON Data:", data);
+         
+                 let totalDistance = 0;
+                 let totalTime = 0;
+                 let totalElevGain = 0;
+         
+                 data.features.forEach(function(feature) {
+                     console.log("Feature:", feature);
+                     console.log("Feature Properties:", feature.properties);
+         
+                     if (feature.properties) {
+                         console.log("Name:", feature.properties.name);
+                         console.log("Distance:", feature.properties.dist_mi);
+                         console.log("Total Time:", feature.properties.total_time);
+                         console.log("Elevation Gain:", feature.properties.elev_gain_ft);
+                     }
+         
+                     // Add GeoJSON layer to the map with tooltips
+                     L.geoJSON(feature, {
+                         style: { color: 'red' }, // Change track color to red
+                         onEachFeature: function(feature, layer) {
+                             if (feature.properties) {
+                                 var popupContent = `
+                                     <b>${feature.properties.name}</b><br>
+                                     Distance: ${feature.properties.dist_mi.toFixed(2)} miles<br>
+                                     Total Time: ${feature.properties.total_time} hours<br>
+                                     Elevation Gain: ${feature.properties.elev_gain_ft.toLocaleString()} feet
+                                 `;
+                                 layer.bindTooltip(popupContent, {permanent: false, direction: 'auto'});
+                             }
+                         }
+                     }).addTo(map);
+         
+                     var name = feature.properties && feature.properties.name ? feature.properties.name : "N/A";
+                     var distance = feature.properties && feature.properties.dist_mi ? feature.properties.dist_mi : 0;
+                     var totalTimeFeature = feature.properties && feature.properties.total_time ? feature.properties.total_time : 0;
+                     var elevGain = feature.properties && feature.properties.elev_gain_ft ? feature.properties.elev_gain_ft : 0;
+         
+                     totalDistance += distance;
+                     totalTime += totalTimeFeature;
+                     totalElevGain += elevGain;
+         
+                     // Create and append table rows for each hike
+                     var tableBody = document.querySelector('#hike-table tbody');
+                     var row = document.createElement('tr');
+         
+                     var nameCell = document.createElement('td');
+                     nameCell.textContent = name;
+                     row.appendChild(nameCell);
+         
+                     var distanceCell = document.createElement('td');
+                     distanceCell.textContent = distance.toFixed(2) + " miles";
+                     row.appendChild(distanceCell);
+         
+                     var timeCell = document.createElement('td');
+                     timeCell.textContent = totalTimeFeature.toFixed(1) + " hours";
+                     row.appendChild(timeCell);
+         
+                     var elevCell = document.createElement('td');
+                     elevCell.textContent = elevGain.toLocaleString() + " feet"; // Format elevation with commas
+                     row.appendChild(elevCell);
+         
+                     tableBody.appendChild(row);
+                 });
+         
+                 // Update totals in the footer
+                 document.getElementById('totalDistance').textContent = totalDistance.toFixed(2) + " miles";
+                 document.getElementById('totalTime').textContent = totalTime.toFixed(1) + " hours";
+                 document.getElementById('totalElevGain').textContent = totalElevGain.toLocaleString() + " feet"; // Format elevation with commas
+         
+             })
+             .catch(err => {
+                 console.log("Error loading GeoJSON data:", err);
+             });
+      </script>
+      <h2>Chocorua Lake Conservancy (CLC) Cartography</h2>
+      </h2>
+      <center></center>
+      <img src="2024-CLC-service-area-map.final.large.jpg" style="width: 75%; height: 75%;"></img></center>
+   </body>
 </html>
