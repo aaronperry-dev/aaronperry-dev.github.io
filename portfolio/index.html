@@ -276,10 +276,19 @@
                         layer.bindTooltip(popupContent, {permanent: false, direction: 'auto'});
                     }
                     
-        // Zoom to feature on click without showing a popup
-        layer.on('click', function (e) {
-            map.fitBounds(layer.getBounds());
-        });
+                            // Zoom to feature on click and make the tooltip static
+                            layer.on('click', function (e) {
+                                // Zoom in and center on the clicked layer
+                                map.fitBounds(layer.getBounds());
+                                
+                                // Change tooltip to permanent (static) once clicked
+                                layer.bindTooltip(popupContent, {
+                                    permanent: true, // Make the tooltip static
+                                    direction: 'top',
+                                    className: 'no-tooltip-box'
+                                }).openTooltip();
+                            });
+                        }
                 }
             }).addTo(map);
          
