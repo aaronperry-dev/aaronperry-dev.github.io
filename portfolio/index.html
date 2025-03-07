@@ -235,33 +235,33 @@
       <script>
          // Initialize the map
          var map = L.map('map').setView([43.90, -71.33], 9); // Set zoom level to 9
-         
+
          // Add ESRI base layer
          L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
              attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
          }).addTo(map);
-         
+
          // Load GeoJSON data
          fetch('master_trails.geojson')
              .then(response => response.json())
              .then(data => {
                  console.log("GeoJSON Data:", data);
-         
+
                  let totalDistance = 0;
                  let totalTime = 0;
                  let totalElevGain = 0;
-         
+
                  data.features.forEach(function(feature) {
                      console.log("Feature:", feature);
                      console.log("Feature Properties:", feature.properties);
-         
+
                      if (feature.properties) {
                          console.log("Name:", feature.properties.name);
                          console.log("Distance:", feature.properties.dist_mi);
                          console.log("Total Time:", feature.properties.total_time);
                          console.log("Elevation Gain:", feature.properties.elev_gain_ft);
                      }
-         
+
                      // Add GeoJSON layer to the map with tooltips
                      L.geoJSON(feature, {
                          style: { color: '#4061A6' }, // Change track color to blue
@@ -275,60 +275,51 @@
                                  `;
                         layer.bindTooltip(popupContent, {permanent: false, direction: 'auto'});
                     }
-                    
-                            // Zoom to feature on click and make the tooltip static
-                            layer.on('click', function (e) {
-                                // Zoom in and center on the clicked layer
-                                map.fitBounds(layer.getBounds());
-                                
-                                // Change tooltip to permanent (static) once clicked
-                                layer.bindTooltip(popupContent, {
-                                    permanent: true, // Make the tooltip static
-                                    direction: 'top',
-                                    className: 'no-tooltip-box'
-                                }).openTooltip();
-                            });
-                        }
+
+        // Zoom to feature on click without showing a popup
+        layer.on('click', function (e) {
+            map.fitBounds(layer.getBounds());
+        });
                 }
             }).addTo(map);
-         
+
                      var name = feature.properties && feature.properties.name ? feature.properties.name : "N/A";
                      var distance = feature.properties && feature.properties.dist_mi ? feature.properties.dist_mi : 0;
                      var totalTimeFeature = feature.properties && feature.properties.total_time ? feature.properties.total_time : 0;
                      var elevGain = feature.properties && feature.properties.elev_gain_ft ? feature.properties.elev_gain_ft : 0;
-         
+
                      totalDistance += distance;
                      totalTime += totalTimeFeature;
                      totalElevGain += elevGain;
-         
+
                      // Create and append table rows for each hike
                      var tableBody = document.querySelector('#hike-table tbody');
                      var row = document.createElement('tr');
-         
+
                      var nameCell = document.createElement('td');
                      nameCell.textContent = name;
                      row.appendChild(nameCell);
-         
+
                      var distanceCell = document.createElement('td');
                      distanceCell.textContent = distance.toFixed(2) + " miles";
                      row.appendChild(distanceCell);
-         
+
                      var timeCell = document.createElement('td');
                      timeCell.textContent = totalTimeFeature.toFixed(1) + " hours";
                      row.appendChild(timeCell);
-         
+
                      var elevCell = document.createElement('td');
                      elevCell.textContent = elevGain.toLocaleString() + " feet"; // Format elevation with commas
                      row.appendChild(elevCell);
-         
+
                      tableBody.appendChild(row);
                  });
-         
+
                  // Update totals in the footer
                  document.getElementById('totalDistance').textContent = totalDistance.toFixed(2) + " miles";
                  document.getElementById('totalTime').textContent = totalTime.toFixed(1) + " hours";
                  document.getElementById('totalElevGain').textContent = totalElevGain.toLocaleString() + " feet"; // Format elevation with commas
-         
+
              })
              .catch(err => {
                  console.log("Error loading GeoJSON data:", err);
