@@ -265,10 +265,15 @@
                                      Total Time: ${feature.properties.total_time} hours<br>
                                      Elevation Gain: ${feature.properties.elev_gain_ft.toLocaleString()} feet
                                  `;
-                                 layer.bindTooltip(popupContent, {permanent: false, direction: 'auto'});
-                             }
-                         }
-                     }).addTo(map);
+                        layer.bindTooltip(popupContent, {permanent: false, direction: 'auto'});
+                    }
+                    
+                    // Add click event to zoom to feature
+                    layer.on('click', function() {
+                        map.fitBounds(layer.getBounds());
+                    });
+                }
+            }).addTo(map);
          
                      var name = feature.properties && feature.properties.name ? feature.properties.name : "N/A";
                      var distance = feature.properties && feature.properties.dist_mi ? feature.properties.dist_mi : 0;
