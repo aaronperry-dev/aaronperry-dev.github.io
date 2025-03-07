@@ -6,6 +6,14 @@
       <title>Aaron Perry Portfolio</title>
       <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
       <style>
+         #top-banner {
+         background-image: url('chocorua_lake_banner.png'); /* Banner image */
+         background-size: cover;
+         background-repeat: no-repeat;
+         background-position: center;
+         width: 100%;
+         height: 250px; /* Adjust height as needed */
+         }
          body {
          background-image: url('topo3.png');
          background-size: cover;
@@ -160,7 +168,7 @@
       <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
    </head>
    <body>
-      <img src="chocorua_lake_banner.png" alt="" style="width: 100%; display: block;">
+      <div id="top-banner"></div>
       <nav id='menu'>
          <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>
          <ul>
