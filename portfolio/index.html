@@ -270,10 +270,10 @@
                         layer.bindTooltip(popupContent, {permanent: false, direction: 'auto'});
                     }
                     
-                    // Add click event to zoom to feature
-                    layer.on('click', function() {
-                        map.fitBounds(layer.getBounds());
-                    });
+        // Zoom to feature on click without showing a popup
+        layer.on('click', function (e) {
+            map.fitBounds(layer.getBounds());
+        });
                 }
             }).addTo(map);
          
