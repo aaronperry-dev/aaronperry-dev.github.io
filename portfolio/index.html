@@ -16,8 +16,7 @@
         "name": "Aaron Perry",
         "url": "https://aaronperry-dev.github.io",
         "sameAs": [
-          "https://www.linkedin.com/in/aaronperry-0012d156/",
-          "https://aaronperry-dev.github.io/portfolio"
+          "https://www.linkedin.com/in/aaronperry-0012d156/"
         ],
         "jobTitle": "GIS Professional",
         "knowsAbout": ["GIS", "Geospatial Analysis", "Cartography", "Web Mapping", "Leaflet", "ESRI", "GeoJSON", "Python", "SQL"],
@@ -25,7 +24,8 @@
           "@type": "Occupation",
           "name": "Geographic Information Systems Analyst",
           "description": "Analyzes and visualizes spatial data using GIS software to solve geographic problems."
-        }
+        },
+      }
       </script>
 
       <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -184,14 +184,16 @@
          color: #444444;
          }
          @media screen and (max-width: 800px){
-             #menu {position:relative}
+             #menu {
+                position: relative;
+                z-index: 1000; /* This ensures the nav bar is above other content */
+             }
              #menu ul {
                 background:#444444;
                 position:absolute;
                 top:100%;
                 right:0;
                 left:0;
-                z-index:999;
                 height:auto;
                 display:none;
                 text-align:left;
